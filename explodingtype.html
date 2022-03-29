@@ -1,0 +1,301 @@
+<body>
+	
+	<head>
+
+		<title>Exploding Type</title>
+
+		<meta charset="utf-8">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,  target-densitydpi=device-dpi, maximum-scale=1.0"> 
+
+	 	<link rel="stylesheet" type="text/css" href="explodingtypestyles.css">
+		
+		<link href="https://fonts.googleapis.com/css?family=Gothic+A1:100,400,900" rel="stylesheet">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+		<script type="text/javascript">
+
+			var ready = false;
+
+			function transition(){
+
+				$('.explodingtypeobject').remove();
+
+				$('#uiwrapper').css({'opacity':'0', 'pointer-events':'none'});
+
+				setTimeout(function(){
+
+					$('#cursortype p').html( $('#copy').val() );
+					$('#cursortype').css({'opacity':'1'});
+
+					$('#explodingtypewrapper').css({'opacity':'1', 'pointer-events':'inherit'});
+
+					ready = true;
+
+				}, 500)
+
+			}
+
+			function transitionback(){
+
+				$('#explodingtypewrapper').css({'opacity':'0', 'pointer-events':'none'});
+
+				ready = false;
+
+				setTimeout(function(){
+
+					$('#cursortype').css({'opacity':'0'});
+
+					$('#uiwrapper').css({'opacity':'1', 'pointer-events':'inherit'});
+
+				}, 500)
+
+			}
+
+			function setcolours(){
+
+				var fgcolour = $('#foregroundcolour').val();
+
+				$('body').css({'color':fgcolour});
+				$('input').css({'color':fgcolour});
+				$('select').css({'color':fgcolour});
+
+				var bgcolour = $('#backgroundcolour').val();
+
+				$('body').css({'background-color':bgcolour});
+
+			}
+
+			function explodesometype(x, y)
+			{
+
+				$('.explodingtypeobject').remove();
+
+				var type = $('#copy').val();
+
+
+				for (var i = 0; i <= 40; i++) {
+					
+					$('#explodingtypewrapper').prepend('\
+					<div class="explodingtypeobject"><p>' + type + '</p></div>');
+
+				}
+
+				$('.explodingtypeobject').css({
+					'color': $('#foregroundcolour').val(), 
+					'-webkit-text-stroke-color': $('#foregroundcolour').val(),				
+					'-webkit-text-fill-color': $('#backgroundcolour').val(),		
+					'left':x - $('.explodingtypeobject').eq(0).width() / 2, 
+					'top': y - $('.explodingtypeobject').eq(0).height() / 2});
+
+				var type = $('#type').val();
+
+				for (var i = 0; i <= $('.explodingtypeobject').length; i++) {
+
+					var rotation = parseInt($('#rotation').val()) + i * parseInt($('#rotationincrement').val());
+					
+					$('.explodingtypeobject').eq(i).css({
+						'transform':'scale(' + (( i * (i * 0.2) * 0.12 ) + 0.5) + ') rotate(' + 
+						rotation + 'deg)', 
+						'z-index': $('.explodingtypeobject').length - i,
+					'-webkit-text-stroke-width': 2 - i * (2 / $('.explodingtypeobject').length) + 'px'});
+
+					bringintype(i);
+
+					if (type == 'Alternating')
+					{
+
+
+						if ( i % 2 == 0 )
+						{
+
+							$('.explodingtypeobject').eq(i).css({'-webkit-text-fill-color': $('#foregroundcolour').val(),
+							'-webkit-text-stroke-color':'transparent' });
+
+						}
+
+						else
+						{
+
+							$('.explodingtypeobject').eq(i).css({'-webkit-text-fill-color': $('#backgroundcolour').val(),
+							'-webkit-text-stroke-color':'transparent' });
+
+						}
+
+					}
+
+				}
+
+			}
+
+			function bringintype(i)
+			{
+
+				setTimeout(function(){
+
+					$('.explodingtypeobject').eq(i).css({'opacity':'1'});
+
+				}, i * 100)
+
+			}
+
+			$(document).ready(function(){
+
+				setcolours();
+
+				$('#foregroundcolour').on('input', function(){
+
+					setcolours();
+
+				});
+
+				$('#backgroundcolour').on('input', function(){
+
+					setcolours();
+
+				});
+
+				$('#rotation').on('input',function(){
+
+					$('#cursortype').css({'transform': 'rotate(' + $(this).val() + 'deg)' })
+
+				});
+
+				$('#go').click(function(){
+
+					transition();
+
+				});
+
+				$('body').keyup(function(event){
+
+					if (event.keyCode === 13) {
+
+						transition();
+
+					}
+
+					if (event.keyCode === 27) {
+
+						transitionback();
+
+					}
+
+				})
+
+				$('#back').click(function(){
+
+					transitionback();
+
+				});
+
+				$('#explodingtypewrapper').click(function(e){
+
+					if (ready)
+					{
+
+						explodesometype(e.pageX, e.pageY);
+
+					}
+
+				})
+
+			});
+
+			$('body').on('mousemove', function(e){
+
+				$('#cursortype').css({'left':e.pageX - $('#cursortype').width() / 2, 'top':e.pageY - $('#cursortype').height() / 2});
+
+			})
+
+			
+
+		</script>
+
+	</head>
+
+	<body>
+
+		<div id='explodingtypewrapper'>
+
+			<div class="uibutton uiobject" id='back'>
+
+				<p>< Back</p>
+
+			</div>
+
+		</div>
+
+		<div id='uiwrapper'>
+
+			<div class="uiinput uiobject">
+
+				<div class="uiobjectname"><p>Text:</p></div>
+
+				<input id="copy" type="text" value="hello" />
+
+			</div>
+
+			<br/>
+
+			<div class="uiinput uiobject">
+
+				<div class="uiobjectname"><p>Foreground colour:</p></div>
+
+				<input id="foregroundcolour" type="text" value="black" />
+
+			</div>
+
+			<div class="uiinput uiobject">
+
+				<div class="uiobjectname"><p>Background colour:</p></div>
+
+				<input id="backgroundcolour" type="text" value="darkgray" />
+
+			</div>
+
+			<br/>
+
+			<div class="uiinput uiinputnoborder uiobject">
+
+				<div class="uiobjectname"><p>Rotation:</p></div>
+
+				<input id="rotation" type="range" value="0" min="0" max="360" />
+
+			</div>
+
+			<div class="uiinput uiinputnoborder uiobject">
+
+				<div class="uiobjectname"><p>Rotation increment:</p></div>
+
+				<input id="rotationincrement" type="range" value="0" min="-5" max="5" />
+
+			</div>
+
+			<div class="uiinput uiobject">
+
+				<div class="uiobjectname"><p>Type:</p></div>
+
+				<select id="type">
+					<option value="Outlined">outlined</option>
+					<option value="Alternating">alternating</option>
+				</select>
+
+			</div>
+
+			<div class="uibutton uiobject" id='go'>
+
+				<p>Go ></p>
+
+			</div>
+
+		</div>
+
+		<div id='cursortype'>
+			<p>hello</p>
+		</div>
+
+	</body>
+
+</body>
