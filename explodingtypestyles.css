@@ -2,7 +2,7 @@
 @font-face{
 
 	font-family: main;
-	src: url('assets/typefaces/Akzidenz-grotesk-roman_0.ttf');
+	src: url('typefaces/Akzidenz-grotesk-roman_0.ttf');
 
 }
 
@@ -10,7 +10,7 @@
 
 	font-family: main;
 	font-weight: 700;
-	src: url('assets/typefaces/Akzidenz-grotesk-bold_0.ttf');
+	src: url('typefaces/Akzidenz-grotesk-bold_0.ttf');
 
 }
 
@@ -18,7 +18,7 @@
 
 	font-family: main;
 	font-weight: 900;
-	src: url('assets/typefaces/Akzidenz-grotesk-black_0.ttf');
+	src: url('typefaces/Akzidenz-grotesk-black_0.ttf');
 
 }
 
@@ -26,7 +26,7 @@
 
 	font-family: main;
 	font-weight: 300;
-	src: url('assets/typefaces/Akzidenz-grotesk-light_0.ttf');
+	src: url('typefaces/Akzidenz-grotesk-light_0.ttf');
 
 }
 
@@ -35,7 +35,7 @@
 
 	font-family: mainserif;
 	font-weight: 500;
-	src: url('assets/typefaces/GARA.TTF');
+	src: url('typefaces/GARA.TTF');
 
 }
 
@@ -43,7 +43,7 @@
 
 	font-family: mainserif;
 	font-weight: 700;
-	src: url('assets/typefaces/GARABD.TTF');
+	src: url('typefaces/GARABD.TTF');
 
 }
 
@@ -52,7 +52,7 @@
 	font-family: mainserif;
 	font-weight: 500;
 	font-style: italic;
-	src: url('assets/typefaces/GARAIT.TTF');
+	src: url('typefaces/GARAIT.TTF');
 
 }
 
@@ -61,7 +61,7 @@
 	font-family: icons;
 	font-weight: 500;
 	font-style: italic;
-	src: url('assets/typefaces/IcoMoon-Free.ttf');
+	src: url('typefaces/IcoMoon-Free.ttf');
 
 	text-rendering: optimizeLegibility;
 
@@ -122,7 +122,7 @@ body{
 	box-sizing: border-box;
 }
 
-input{
+input, select{
 
 	width: 100%;
 
@@ -132,8 +132,10 @@ input{
 
 	border: none;
 
-	border-bottom: 2px solid lightgray;
+	background-color: white;
+	border-radius: 10px;
 	transition: border-bottom 0.5s;
+	padding: 8px;
 
 	font-size: 18pt;
 
@@ -143,30 +145,12 @@ input:focus{
 
 	outline: none;	
 
-	border-bottom: 4px solid white;
 
 }
 
 .uiinputnoborder input{
 
 	border-bottom: none !important;
-
-}
-
-select{
-
-	width: 100%;
-
-	background-color: transparent;
-
-	color: white;
-
-	border: none;
-
-	border-bottom: 2px solid lightgray;
-	transition: border-bottom 0.5s;
-
-	font-size: 18pt;
 
 }
 
@@ -373,6 +357,7 @@ input[type=range]:active::-ms-thumb
 #back{
 
 	z-index: 999;
+	position: relative;
 
 }
 
